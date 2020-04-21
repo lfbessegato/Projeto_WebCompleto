@@ -7,6 +7,7 @@ app.db = db
 // Consig() -> gerenciar as dependencias dos middlewares
 consign ()
     .then('./config/middlewares.js')
+    .then('./api/validation.js')
     .then('./api')
     .then('./config/routes.js')
     .into(app)
