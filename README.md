@@ -9,7 +9,8 @@ knex migrate:make create_table_users;
 knex migrate:make create_table_categories;
 knex migrate:make create_table_articles;
 
-knex migrate:latest -> para obter a última versão das migrates
+knex migrate:latest -> para obter a última versão das migrates.
+knex migrate:rollback -> para realizar o drop das tabelas.
 
 # frontend
 
