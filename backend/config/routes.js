@@ -30,6 +30,6 @@ module.exports = app => {
         .put(app.api.article.save)
         .delete(app.api.article.remove)
 
-    app.route('categories/:id/articles')
+    app.route('/categories/:id/articles')
         .get(app.api.article.getByCategory)
 }
