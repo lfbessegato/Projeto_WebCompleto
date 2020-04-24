@@ -6,6 +6,7 @@ app.db = db
 
 // Consig() -> gerenciar as dependencias dos middlewares
 consign ()
+    .include('./config/passport.js')
     .then('./config/middlewares.js')
     .then('./api/validation.js')
     .then('./api')
