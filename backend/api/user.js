@@ -38,6 +38,7 @@ module.exports = app => {
             app.db('users')
                 .update(user)
                 .where({ id: user.id })
+                .whereNull('deletedAt')
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
@@ -51,6 +52,7 @@ module.exports = app => {
     const get = (req, res) => {
         app.db('users')
             .select('id', 'name', 'email', 'admin')
+            .whereNull('deletedAt')
             .then(users => res.json(users))
             .catch(err => res.status(500).send(err))
     }
@@ -59,12 +61,12 @@ module.exports = app => {
         app.db('users')
             .select('id', 'name', 'email', 'admin')
             .where({ id: req.params.id })
+            .whereNull('deletedAt')
             .first()
             .then(user => res.json(user))
             .catch(err => res.status(500).send(err))
     }
 
-    /*
     const remove = async (req, res) => {
         try {
             const articles = await app.db('articles')
@@ -80,7 +82,7 @@ module.exports = app => {
         } catch(msg) {
             res.status(400).send(msg)
         }
-    } */
+    }
 
-    return { save, get, getById }
+    return { save, get, getById, remove }
 }
