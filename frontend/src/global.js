@@ -13,4 +13,4 @@ export function showError(e) {
     }
 }
 
-export default { baseApiUrl, showError }
+export default { baseApiUrl, showError}
