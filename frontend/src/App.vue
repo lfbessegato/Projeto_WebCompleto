@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { baseApiUrl, userkey } from '@/global'
 import { mapState } from 'vuex'
 import Header from "@/components/template/Header"
 import Menu from "@/components/template/Menu"
@@ -21,7 +23,41 @@ import Footer from "@/components/template/Footer"
 export default {
 	name: "App",
 	components: { Header, Menu, Content, Footer},
-	computed: mapState(['isMenuVisible', 'user'])
+	computed: mapState(['isMenuVisible', 'user']),
+	data: function() {
+		return {
+			validatingToken: true
+		}
+	},
+	methods: {
+		async validatingToken() {
+			this.validatingToken = true
+
+			const json = localStorage.getItem(userkey)
+			const userData = JSON.parse(json)
+			this.$store.commit('setUser', null)
+
+			if (!userData) {
+				this.validatingToken = false
+				this.$router.push({ name: 'auth' })
+				return
+			}
+
+			const res = await axios.post(`${baseApiUrl}/validateToken`, userData)
+
+			if(res.data) {
+				this.$store.commit('setUser', userData)
+			} else {
+				localStorage.removeItem(userKey)
+				this.$router.push({ name: 'auth' })
+			}
+
+			this.validatingToken = false
+		}
+	},
+	created () {
+		this.validatingToken()
+	}
 }
 </script>
 
